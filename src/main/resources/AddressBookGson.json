@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Sandip Singh",
+    "mobile": 1234567890,
+    "city": "Ambala",
+    "state": "West",
+    "zip": 123456
+  },
+  {
+    "name": "Anubhav Singh",
+    "mobile": 1234567890,
+    "city": "Kkfk",
+    "state": "Jfds",
+    "zip": 456789
+  },
+  {
+    "name": "Kamlesh Hina",
+    "mobile": 1234567890,
+    "city": "Lalnagar",
+    "state": "Juhu",
+    "zip": 543210
+  }
+]

@@ -1,0 +1,7 @@
+{
+  "/person/list": "/person",
+  "/person/get/:id": "/person/:id",
+  "/person/create": "/person",
+  "/person/update/:id": "/person/:id",
+  "/person/delete/:id": "/person/:id"
+}

@@ -1,0 +1,29 @@
+[
+  {
+    "person": {
+      "zip": 456789,
+      "city": "Kkfk",
+      "name": "Anubhav Singh",
+      "mobile": 1234567890,
+      "state": "Jfds"
+    }
+  },
+  {
+    "person": {
+      "zip": 543210,
+      "city": "Lalnagar",
+      "name": "Kamlesh Hina",
+      "mobile": 1234567890,
+      "state": "Juhu"
+    }
+  },
+  {
+    "person": {
+      "zip": 123456,
+      "city": "Asansol",
+      "name": "Sandip Singh",
+      "mobile": 1234567890,
+      "state": "West"
+    }
+  }
+]
