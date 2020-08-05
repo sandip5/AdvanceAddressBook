@@ -24,6 +24,7 @@ public class Connection {
                 System.out.println("city -->" + result.getString(4));
                 System.out.println("state -->" + result.getString(5));
                 System.out.println("zip -->" + result.getInt(6));
+                System.out.println("\n================================\n");
             }
             con.close();
         } catch (ClassNotFoundException | SQLException e) {
