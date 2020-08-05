@@ -1,6 +1,6 @@
 package com.bridgelabz.advaddressbook.services;
 
-import com.bridgelabz.advaddressbook.db.BussLayer;
+import com.bridgelabz.advaddressbook.conf.CrudLayer;
 import com.bridgelabz.advaddressbook.enums.EditType;
 import com.bridgelabz.advaddressbook.model.Person;
 import com.bridgelabz.advaddressbook.utility.IoOperation;
@@ -39,8 +39,8 @@ public class ImplAddressBook implements IAddressBook {
 
     public void printPersonDetails() {
         persons.forEach(System.out::println);
-        BussLayer bussLayer = new BussLayer();
-        bussLayer.selectData();
+        CrudLayer crudLayer = new CrudLayer();
+        crudLayer.selectData();
     }
 
     /**
@@ -61,8 +61,8 @@ public class ImplAddressBook implements IAddressBook {
         addZip(validateInput);
         person.setZip(zip);
         persons.add(person);
-        BussLayer bussLayer = new BussLayer();
-        bussLayer.insertData(person.getName(),
+        CrudLayer crudLayer = new CrudLayer();
+        crudLayer.insertData(person.getName(),
                 person.getMobile(),
                 person.getCity(),
                 person.getState(),
@@ -136,7 +136,7 @@ public class ImplAddressBook implements IAddressBook {
 
     @Override
     public void editPerson() {
-        BussLayer bussLayer = new BussLayer();
+        CrudLayer crudLayer = new CrudLayer();
         System.out.println("Enter Persons Person Name you want to edit:");
         Scanner scanner = new Scanner(System.in);
         String searchFirstName = scanner.nextLine();
@@ -150,37 +150,57 @@ public class ImplAddressBook implements IAddressBook {
             }
         }
         if (isFoundPerson) {
+            boolean check = false;
             System.out.println("Select To Edit:\n 1. Mobile Number\n 2. City\n 3. State\n 4. Zip ");
             switch (scanner.nextInt()) {
                 case 1:
                     System.out.println("enter new mobile number");
                     Long number = scanner.nextLong();
-                    persons.get(indexOfPerson).setMobile(number);
-                    bussLayer.insertData(searchFirstName,EditType.EDIT_NUMBER, number);
+                    if(!patternValidation(String.valueOf(number), new ValidateInput().getPHONE_NUMBER_PATTERN())){
+                        persons.get(indexOfPerson).setMobile(number);
+                        crudLayer.insertData(searchFirstName,EditType.EDIT_NUMBER, number);
+                        check = true;
+                    }
                     break;
                 case 2:
+                    Scanner scan = new Scanner(System.in);
                     System.out.println("enter new city name");
-                    String city = scanner.nextLine();
-                    persons.get(indexOfPerson).setCity(city);
-                    bussLayer.insertData(searchFirstName,EditType.EDIT_CITY, city);
+                    String city = scan.nextLine();
+                    if(!patternValidation(city, new ValidateInput().getCOMMON_PATTERN())){
+                        persons.get(indexOfPerson).setCity(city);
+                        crudLayer.insertData(searchFirstName,EditType.EDIT_CITY, city);
+                        check = true;
+                    }
                     break;
                 case 3:
+                    scan = new Scanner(System.in);
                     System.out.println("enter new state name");
-                    String state = scanner.nextLine();
-                    persons.get(indexOfPerson).setState(state);
-                    bussLayer.insertData(searchFirstName,EditType.EDIT_STATE, state);
+                    String state = scan.nextLine();
+                    if(!patternValidation(state, new ValidateInput().getCOMMON_PATTERN())){
+                        persons.get(indexOfPerson).setState(state);
+                        crudLayer.insertData(searchFirstName,EditType.EDIT_STATE, state);
+                        check = true;
+                    }
                     break;
                 case 4:
                     System.out.println("enter new zip");
                     int zip = scanner.nextInt();
-                    persons.get(indexOfPerson).setZip(zip);
+                    if(!patternValidation(String.valueOf(zip),new ValidateInput().getZIP_PATTERN())){
+                        persons.get(indexOfPerson).setZip(zip);
+                        crudLayer.insertData(searchFirstName, EditType.EDIT_ZIP, Long.valueOf(zip));
+                        check = true;
+                    }
                     break;
                 default:
                     System.out.println("Invalid Selection, Try Again...");
                     editPerson();
             }
             System.out.println();
-            System.out.println("Edit completed");
+            if(!check){
+                System.out.println("Edit Not Completed... Enter Valid Input");
+            }else {
+                System.out.println("Edit completed");
+            }
         } else
             System.out.println("No person found with this First Name");
     }
@@ -195,8 +215,8 @@ public class ImplAddressBook implements IAddressBook {
             System.out.println("Enter Correct Person Name... ");
         }else {
             System.out.println("Deleted Successfully...");
-            BussLayer bussLayer = new BussLayer();
-            bussLayer.deleteData(searchFirstName);
+            CrudLayer crudLayer = new CrudLayer();
+            crudLayer.deleteData(searchFirstName);
         }
     }
 
