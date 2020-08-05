@@ -1,11 +1,11 @@
-package com.bridgelabz.advaddressbook.db;
+package com.bridgelabz.advaddressbook.conf;
 
 import com.bridgelabz.advaddressbook.enums.EditType;
 
-public class BussLayer {
-        private final DbManager db;
-        public BussLayer(){
-            db = new DbManager();
+public class CrudLayer {
+        private final Connection db;
+        public CrudLayer(){
+            db = new Connection();
         }
         public void selectData(){
             db.selectRecords();
@@ -47,7 +47,6 @@ public class BussLayer {
                     cmd = "update person set state='"+changeInTo+"' where name='"+name+"'";
                     break;
             }
-
             if(db.recordManipulation(cmd)){
                 System.out.println("Updated");
             }else {

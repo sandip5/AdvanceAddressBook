@@ -1,11 +1,11 @@
-package com.bridgelabz.advaddressbook.db;
+package com.bridgelabz.advaddressbook.conf;
 
 import com.bridgelabz.advaddressbook.model.Person;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class DbManager {
+public class Connection {
     private final String driver = "com.mysql.cj.jdbc.Driver";
     private final String url = "jdbc:mysql://localhost:3306/address_book";
     private final String uid = "root";
@@ -14,7 +14,7 @@ public class DbManager {
     public void selectRecords() {
         try {
             Class.forName(driver);
-            Connection con = DriverManager.getConnection(url, uid, password);
+            java.sql.Connection con = DriverManager.getConnection(url, uid, password);
             Statement stat = con.createStatement();
             ResultSet result = stat.executeQuery("select * from person");
             while (result.next()) {
@@ -35,7 +35,7 @@ public class DbManager {
         boolean flag = false;
         try {
             Class.forName(driver);
-            Connection con = DriverManager.getConnection(url, uid, password);
+            java.sql.Connection con = DriverManager.getConnection(url, uid, password);
             Statement stat = con.createStatement();
             flag = stat.executeUpdate(query) > 0;
             con.close();
@@ -49,7 +49,7 @@ public class DbManager {
         ArrayList<Person> personList = null;
         try {
             Class.forName(driver);
-            Connection con = DriverManager.getConnection(url, uid, password);
+            java.sql.Connection con = DriverManager.getConnection(url, uid, password);
             Statement stat = con.createStatement();
             ResultSet result = stat.executeQuery("select * from person");
             personList = new ArrayList<>();
