@@ -1,4 +1,6 @@
 package com.bridgelabz.advaddressbook.controller;
+import com.bridgelabz.advaddressbook.db.BussLayer;
+import com.bridgelabz.advaddressbook.db.DbManager;
 import com.bridgelabz.advaddressbook.model.Person;
 import com.bridgelabz.advaddressbook.services.ImplAddressBook;
 import com.bridgelabz.advaddressbook.utility.IoOperation;
@@ -22,7 +24,8 @@ public class AddressBookMain {
         System.out.println("Select Option: \n1.Read File Using Simple Json" +
                 "\n2.Read File Using OpenCSV" +
                 "\n3.Read File Using Gson" +
-                "\n4.Do Operation In Empty List");
+                "\n4.Do Operation In Empty List" +
+                "\n5.Do Operation With SQL Server");
         int select = scanner.nextInt();
         switch (select) {
             case 1:
@@ -36,6 +39,9 @@ public class AddressBookMain {
                 break;
             case 4:
                 addressBookList = new ArrayList<>();
+                break;
+            case 5:
+                addressBookList = new DbManager().getAllPerson();
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + select);

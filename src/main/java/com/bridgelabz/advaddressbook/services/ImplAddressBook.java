@@ -1,5 +1,7 @@
 package com.bridgelabz.advaddressbook.services;
 
+import com.bridgelabz.advaddressbook.db.BussLayer;
+import com.bridgelabz.advaddressbook.enums.EditType;
 import com.bridgelabz.advaddressbook.model.Person;
 import com.bridgelabz.advaddressbook.utility.IoOperation;
 import com.bridgelabz.advaddressbook.utility.ValidateInput;
@@ -37,6 +39,8 @@ public class ImplAddressBook implements IAddressBook {
 
     public void printPersonDetails() {
         persons.forEach(System.out::println);
+        BussLayer bussLayer = new BussLayer();
+        bussLayer.selectData();
     }
 
     /**
@@ -57,6 +61,12 @@ public class ImplAddressBook implements IAddressBook {
         addZip(validateInput);
         person.setZip(zip);
         persons.add(person);
+        BussLayer bussLayer = new BussLayer();
+        bussLayer.insertData(person.getName(),
+                person.getMobile(),
+                person.getCity(),
+                person.getState(),
+                person.getZip());
         System.out.println("Person added");
     }
 
@@ -126,6 +136,7 @@ public class ImplAddressBook implements IAddressBook {
 
     @Override
     public void editPerson() {
+        BussLayer bussLayer = new BussLayer();
         System.out.println("Enter Persons Person Name you want to edit:");
         Scanner scanner = new Scanner(System.in);
         String searchFirstName = scanner.nextLine();
@@ -143,19 +154,26 @@ public class ImplAddressBook implements IAddressBook {
             switch (scanner.nextInt()) {
                 case 1:
                     System.out.println("enter new mobile number");
-                    persons.get(indexOfPerson).setMobile(scanner.nextLong());
+                    Long number = scanner.nextLong();
+                    persons.get(indexOfPerson).setMobile(number);
+                    bussLayer.insertData(searchFirstName,EditType.EDIT_NUMBER, number);
                     break;
                 case 2:
                     System.out.println("enter new city name");
-                    persons.get(indexOfPerson).setCity(scanner.next());
+                    String city = scanner.nextLine();
+                    persons.get(indexOfPerson).setCity(city);
+                    bussLayer.insertData(searchFirstName,EditType.EDIT_CITY, city);
                     break;
                 case 3:
                     System.out.println("enter new state name");
-                    persons.get(indexOfPerson).setState(scanner.next());
+                    String state = scanner.nextLine();
+                    persons.get(indexOfPerson).setState(state);
+                    bussLayer.insertData(searchFirstName,EditType.EDIT_STATE, state);
                     break;
                 case 4:
                     System.out.println("enter new zip");
-                    persons.get(indexOfPerson).setZip(scanner.nextInt());
+                    int zip = scanner.nextInt();
+                    persons.get(indexOfPerson).setZip(zip);
                     break;
                 default:
                     System.out.println("Invalid Selection, Try Again...");
@@ -175,8 +193,11 @@ public class ImplAddressBook implements IAddressBook {
         boolean isRemoved = persons.removeIf(person -> person.getName().equals(searchFirstName));
         if (!isRemoved) {
             System.out.println("Enter Correct Person Name... ");
+        }else {
+            System.out.println("Deleted Successfully...");
+            BussLayer bussLayer = new BussLayer();
+            bussLayer.deleteData(searchFirstName);
         }
-        System.out.println("Deleted Successfully...");
     }
 
     @Override
