@@ -1,4 +1,5 @@
 package com.bridgelabz.advaddressbook.utility;
+
 import com.bridgelabz.advaddressbook.model.Person;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

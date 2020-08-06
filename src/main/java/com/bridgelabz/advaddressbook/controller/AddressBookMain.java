@@ -1,5 +1,6 @@
 package com.bridgelabz.advaddressbook.controller;
-import com.bridgelabz.advaddressbook.conf.Connection;
+
+import com.bridgelabz.advaddressbook.dao.AddressBookDao;
 import com.bridgelabz.advaddressbook.model.Person;
 import com.bridgelabz.advaddressbook.services.ImplAddressBook;
 import com.bridgelabz.advaddressbook.utility.IoOperation;
@@ -40,7 +41,7 @@ public class AddressBookMain {
                 addressBookList = new ArrayList<>();
                 break;
             case 5:
-                addressBookList = new Connection().getAllPerson();
+                addressBookList = new AddressBookDao().getAllPerson();
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + select);

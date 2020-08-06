@@ -1,6 +1,6 @@
 package com.bridgelabz.advaddressbook.services;
 
-import com.bridgelabz.advaddressbook.conf.CrudLayer;
+import com.bridgelabz.advaddressbook.config.CrudQuery;
 import com.bridgelabz.advaddressbook.enums.EditType;
 import com.bridgelabz.advaddressbook.model.Person;
 import com.bridgelabz.advaddressbook.utility.IoOperation;
@@ -39,8 +39,8 @@ public class ImplAddressBook implements IAddressBook {
 
     public void printPersonDetails() {
         persons.forEach(System.out::println);
-        CrudLayer crudLayer = new CrudLayer();
-        crudLayer.selectData();
+        CrudQuery crudQuery = new CrudQuery();
+        crudQuery.selectData();
     }
 
     /**
@@ -61,8 +61,8 @@ public class ImplAddressBook implements IAddressBook {
         addZip(validateInput);
         person.setZip(zip);
         persons.add(person);
-        CrudLayer crudLayer = new CrudLayer();
-        crudLayer.insertData(person.getName(),
+        CrudQuery crudQuery = new CrudQuery();
+        crudQuery.insertData(person.getName(),
                 person.getMobile(),
                 person.getCity(),
                 person.getState(),
@@ -136,7 +136,7 @@ public class ImplAddressBook implements IAddressBook {
 
     @Override
     public void editPerson() {
-        CrudLayer crudLayer = new CrudLayer();
+        CrudQuery crudQuery = new CrudQuery();
         System.out.println("Enter Persons Person Name you want to edit:");
         Scanner scanner = new Scanner(System.in);
         String searchFirstName = scanner.nextLine();
@@ -156,9 +156,9 @@ public class ImplAddressBook implements IAddressBook {
                 case 1:
                     System.out.println("enter new mobile number");
                     Long number = scanner.nextLong();
-                    if(!patternValidation(String.valueOf(number), new ValidateInput().getPHONE_NUMBER_PATTERN())){
+                    if (!patternValidation(String.valueOf(number), new ValidateInput().getPHONE_NUMBER_PATTERN())) {
                         persons.get(indexOfPerson).setMobile(number);
-                        crudLayer.insertData(searchFirstName,EditType.EDIT_NUMBER, number);
+                        crudQuery.insertData(searchFirstName, EditType.EDIT_NUMBER, number);
                         check = true;
                     }
                     break;
@@ -166,9 +166,9 @@ public class ImplAddressBook implements IAddressBook {
                     Scanner scan = new Scanner(System.in);
                     System.out.println("enter new city name");
                     String city = scan.nextLine();
-                    if(!patternValidation(city, new ValidateInput().getCOMMON_PATTERN())){
+                    if (!patternValidation(city, new ValidateInput().getCOMMON_PATTERN())) {
                         persons.get(indexOfPerson).setCity(city);
-                        crudLayer.insertData(searchFirstName,EditType.EDIT_CITY, city);
+                        crudQuery.insertData(searchFirstName, EditType.EDIT_CITY, city);
                         check = true;
                     }
                     break;
@@ -176,18 +176,18 @@ public class ImplAddressBook implements IAddressBook {
                     scan = new Scanner(System.in);
                     System.out.println("enter new state name");
                     String state = scan.nextLine();
-                    if(!patternValidation(state, new ValidateInput().getCOMMON_PATTERN())){
+                    if (!patternValidation(state, new ValidateInput().getCOMMON_PATTERN())) {
                         persons.get(indexOfPerson).setState(state);
-                        crudLayer.insertData(searchFirstName,EditType.EDIT_STATE, state);
+                        crudQuery.insertData(searchFirstName, EditType.EDIT_STATE, state);
                         check = true;
                     }
                     break;
                 case 4:
                     System.out.println("enter new zip");
                     int zip = scanner.nextInt();
-                    if(!patternValidation(String.valueOf(zip),new ValidateInput().getZIP_PATTERN())){
+                    if (!patternValidation(String.valueOf(zip), new ValidateInput().getZIP_PATTERN())) {
                         persons.get(indexOfPerson).setZip(zip);
-                        crudLayer.insertData(searchFirstName, EditType.EDIT_ZIP, Long.valueOf(zip));
+                        crudQuery.insertData(searchFirstName, EditType.EDIT_ZIP, Long.valueOf(zip));
                         check = true;
                     }
                     break;
@@ -196,9 +196,9 @@ public class ImplAddressBook implements IAddressBook {
                     editPerson();
             }
             System.out.println();
-            if(!check){
+            if (!check) {
                 System.out.println("Edit Not Completed... Enter Valid Input");
-            }else {
+            } else {
                 System.out.println("Edit completed");
             }
         } else
@@ -213,10 +213,10 @@ public class ImplAddressBook implements IAddressBook {
         boolean isRemoved = persons.removeIf(person -> person.getName().equals(searchFirstName));
         if (!isRemoved) {
             System.out.println("Enter Correct Person Name... ");
-        }else {
+        } else {
             System.out.println("Deleted Successfully...");
-            CrudLayer crudLayer = new CrudLayer();
-            crudLayer.deleteData(searchFirstName);
+            CrudQuery crudQuery = new CrudQuery();
+            crudQuery.deleteData(searchFirstName);
         }
     }
 
